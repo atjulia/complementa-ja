@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/views/login.dart';
+import '/views/feed.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,12 +10,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Complementa Já',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
         primarySwatch: Colors.blue
         ),
-        home: LoginView(),
+        home: Feed(),
       ),
     );
   }
