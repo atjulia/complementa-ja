@@ -18,7 +18,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-        backgroundColor: Color(0xff6B0D0F),
+        backgroundColor: const Color(0xff6B0D0F),
           body: SafeArea(
             child: Align(
               alignment:  Alignment.topCenter,
