@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/views/login.dart';
-import '/views/feed.dart';
+
+import 'routes.dart' as route;
 
 void main() => runApp(MyApp());
 
@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
         primarySwatch: Colors.blue
         ),
-        home: Feed(),
+          onGenerateRoute: route.controller,
+          initialRoute: route.loginPage,
       ),
     );
   }
