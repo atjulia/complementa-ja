@@ -8,12 +8,17 @@ class Formulario extends StatefulWidget {
   @override
   State<Formulario> createState() => _FormularioState();
 }
+
 late List<String> listValue = ["Selecione", "PDF", "Documento"];
+
 class _FormularioState extends State<Formulario> {
   late String initalValue = listValue.first;
 
   late Solicitacao model = new Solicitacao();
   late TextEditingController controllerNome = new TextEditingController();
+  late TextEditingController controllerConclusao = new TextEditingController();
+  late TextEditingController controllerInstituicao = new TextEditingController();
+  late TextEditingController controllerAnxDocumento = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +26,7 @@ class _FormularioState extends State<Formulario> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Envio de Documento'),
+        backgroundColor: primaryColor,
       ),
       body: Column(
         children: [
@@ -28,25 +34,15 @@ class _FormularioState extends State<Formulario> {
             padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Tipo Documento'), TextFormField(
-                controller: controllerNome,
-              )],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Nome'),
+                Text('Tipo de documento'),
                 DropdownButton<String>(
                   isExpanded: true,
                   value: initalValue,
                   elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
                   underline: Container(
                     height: 2,
-                    color: Colors.deepPurpleAccent,
+                    color: primaryColor,
                   ),
                   onChanged: (String? value) {
                     // This is called when the user selects an item.
@@ -63,27 +59,92 @@ class _FormularioState extends State<Formulario> {
                   }).toList(),
                 )
               ],
-
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Nome'),
+                TextFormField(
+                  controller: controllerNome,
+                  cursorColor: primaryColor,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Data de Conclusão'),
+                TextFormField(
+                  controller: controllerConclusao,
+                  cursorColor: primaryColor,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Organizado por qual instituição?'),
+                TextFormField(
+                  controller: controllerInstituicao,
+                  cursorColor: primaryColor,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Anexar documento'),
+                TextFormField(
+                  controller: controllerAnxDocumento,
+                  cursorColor: primaryColor,
+                )
+              ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
             child: OutlinedButton(
               onPressed: () {
-                model.nome = controllerNome.text; // se faz normalmente pra texto
+                model.nome = controllerNome.text;
+                model.conclusao = controllerConclusao.text;
+                model.instituicao = controllerInstituicao.text;
+                model.anxDocumento = controllerAnxDocumento.text;// se faz normalmente pra texto
+
+                //debugPrint(model.documento);
+                debugPrint(model.nome);
+                debugPrint(model.conclusao);
+                debugPrint(model.instituicao);
+                debugPrint(model.anxDocumento);
+
+
               },
               style: OutlinedButton.styleFrom(
                   minimumSize: Size.fromHeight(40),
                   side: const BorderSide(width: 0.5, color: primaryColor),
-                  padding: ( const EdgeInsets.all(15)),
-                  shape: ( RoundedRectangleBorder(
+                  padding: (const EdgeInsets.all(15)),
+                  shape: (RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0)))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(right: 8.0),
-                    child: Icon(Icons.send, color: primaryColor,),
+                    child: Icon(
+                      Icons.send,
+                      color: primaryColor,
+                    ),
                   ),
                   Text(
                     "Enviar solicitação",
@@ -105,5 +166,7 @@ class _FormularioState extends State<Formulario> {
 class Solicitacao {
   late String documento;
   late String nome;
+  late String conclusao;
+  late String instituicao;
+  late String anxDocumento;
 }
-

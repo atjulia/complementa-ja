@@ -16,6 +16,8 @@ class _FeedState extends State<Feed> {
   late double progress;
   late int percent;
   late int horas;
+  late String nome;
+  late String curso;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -25,6 +27,8 @@ class _FeedState extends State<Feed> {
     horas = 80;
     percent = 30;
     progress = 0.30;
+    nome = 'Júlia Karolina';
+    curso = 'Engenharia de Software';
   }
 
   @override
@@ -44,7 +48,7 @@ class _FeedState extends State<Feed> {
               Column(
                 children: [
                   Text(
-                    'Olá Júlia Karolina', // colocar nome vindo do banco
+                    'Olá $nome', // colocar nome vindo do banco
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       fontSize: 25,
@@ -53,7 +57,7 @@ class _FeedState extends State<Feed> {
                     ),
                   ),
                   Text(
-                    'Engenharia de Software', // colocar curso vindo do banco
+                    curso, // colocar curso vindo do banco
                     textAlign: TextAlign.right,
                     style: GoogleFonts.inter(
                       fontSize: 14,
