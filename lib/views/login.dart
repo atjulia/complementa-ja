@@ -19,6 +19,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             backgroundColor: const Color(0xff6B0D0F),
             body: SafeArea(
@@ -28,10 +29,7 @@ class _LoginViewState extends State<LoginView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                            logo,
-                            fit: BoxFit.scaleDown
-                          ),
+                          SvgPicture.asset(logo, fit: BoxFit.scaleDown),
                           SizedBox(height: 64),
                           Text(
                             'Complementa Já',
@@ -95,9 +93,9 @@ class _LoginViewState extends State<LoginView> {
 
   Widget insertUser() => TextField(
         controller: emailController,
-        style: TextStyle(color: primaryTextColor),
+        style: TextStyle(),
         decoration: InputDecoration(
-            labelText: 'Login',
+            hintText: 'Login',
             prefixIcon: Icon(FontAwesomeIcons.userCircle),
             filled: true,
             fillColor: primaryTextColor,
@@ -114,9 +112,9 @@ class _LoginViewState extends State<LoginView> {
   Widget insertPassoword() => TextField(
         onChanged: (value) => setState(() => this.password = value),
         onSubmitted: (value) => setState(() => this.password = value),
-        style: TextStyle(color: primaryTextColor),
+        style: TextStyle(),
         decoration: InputDecoration(
-            labelText: 'Senha',
+            hintText: 'Senha',
             prefixIcon: Icon(FontAwesomeIcons.lock),
             suffixIcon: IconButton(
               icon: isPasswordVisible
