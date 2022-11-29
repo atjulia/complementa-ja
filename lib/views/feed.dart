@@ -2,18 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
+import 'formulario.dart';
 
-class Feed extends StatelessWidget {
-  double progress = 0.7;
-  int percent = 70;
+class Feed extends StatefulWidget {
+  @override
+  State<Feed> createState() => _FeedState();
+}
+
+class _FeedState extends State<Feed> {
+  late double progress;
+  late int percent;
+  late int horas;
+  late String nome;
+  late String curso;
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+   // aqui tem que atribuir os valores das variaveis
+    horas = 80;
+    percent = 30;
+    progress = 0.30;
+    nome = 'Júlia Karolina';
+    curso = 'Engenharia de Software';
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: _scaffoldKey,
+        endDrawer: Formulario(),
         backgroundColor: primaryColor,
         body: Column(children: [
           const SizedBox(height: 24),
@@ -24,7 +48,7 @@ class Feed extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Olá Júlia Karolina', // colocar nome vindo do banco
+                    'Olá $nome', // colocar nome vindo do banco
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       fontSize: 25,
@@ -33,7 +57,7 @@ class Feed extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Engenharia de Software', // colocar curso vindo do banco
+                    curso, // colocar curso vindo do banco
                     textAlign: TextAlign.right,
                     style: GoogleFonts.inter(
                       fontSize: 14,
@@ -59,6 +83,7 @@ class Feed extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
@@ -74,7 +99,7 @@ class Feed extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'x h de x h', // trocar para horas
+                              '$horas h de 230 h', // trocar para horas
                               textAlign: TextAlign.right,
                               style: GoogleFonts.inter(
                                 fontSize: 13,
@@ -88,6 +113,7 @@ class Feed extends StatelessWidget {
                   ),
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
                       height: 120,
@@ -125,20 +151,34 @@ class Feed extends StatelessWidget {
             color: Colors.white,
           ),
           const SizedBox(height: 32),
-          TextButton(
-            onPressed: () {},
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(15)),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)))),
-            child: Text(
-              "Enviar documentos para validação",
-              style: GoogleFonts.inter(
-                fontSize: 15.0,
-                color: primaryColor,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60.0),
+            child: OutlinedButton(
+              onPressed: () {
+                _scaffoldKey.currentState?.openEndDrawer();
+              },
+              style: OutlinedButton.styleFrom(
+
+                  minimumSize: Size.fromHeight(40),
+                  side: const BorderSide(width: 0.5, color: Colors.white),
+                  padding: ( const EdgeInsets.all(15)),
+                  shape: ( RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0)))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Icon(Icons.send, color: Colors.white,),
+                  ),
+                  Text(
+                    "Enviar documentos para validação",
+                    style: GoogleFonts.inter(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
