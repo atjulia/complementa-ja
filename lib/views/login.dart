@@ -1,8 +1,12 @@
+import 'package:complementa_ja/services/loginservice.dart';
+import 'package:complementa_ja/services/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
+import 'feed.dart';
 
 import '../routes.dart' as route;
 
@@ -15,6 +19,39 @@ class _LoginViewState extends State<LoginView> {
   final emailController = TextEditingController();
   bool isPasswordVisible = true;
   String password = '';
+  final prefs = SharedPreferences.getInstance();
+
+  void doLogin() async {
+    var res = await LoginService().validaLogin(emailController.text, password);
+    final prefs = await SharedPreferences.getInstance();
+    if (res) {
+      loginService.getUsuario(emailController.text, password).then((Usuario u) {
+        prefs.clear();
+        prefs.setInt('id', u.id);
+        prefs.setString('nome', u.nome);
+        prefs.setString('curso', u.curso);
+        prefs.setInt('horasNecessarias', u.horasNecessarias);
+        prefs.setInt('horasConcluidas', u.horasConcluidas);
+        prefs.setDouble('progress', u.progress);
+        prefs.setInt('percent', u.percent);
+      });
+      pushToFeed();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Usuário ou senha inválidos'),
+        ),
+      );
+    }
+  }
+
+  void pushToFeed() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Feed();
+    }));
+  }
+
+  LoginService loginService = LoginService();
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +113,12 @@ class _LoginViewState extends State<LoginView> {
                             color: buttonColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0)),
-                            onPressed: () => Navigator.pushNamed(
-                                context,
-                                route
-                                    .feedPage), // fazer validação conforme o usuário
+                            // JOGAR ISSO PRA DENTRO DA FUNÇÃO DE LOGIN -- REDIRECIONA ROTA
+                            onPressed: () =>
+                            {
+                              doLogin()
+                            }
+                                , // fazer validação conforme o usuário
                             child: Text('Entrar',
                                 style: TextStyle(
                                   color: secondaryColor,

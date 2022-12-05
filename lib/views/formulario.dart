@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:complementa_ja/constants.dart';
+import 'package:complementa_ja/services/formularioservice.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,16 +12,36 @@ class Formulario extends StatefulWidget {
   State<Formulario> createState() => _FormularioState();
 }
 
-late List<String> listValue = ["Selecione", "PDF", "Documento"];
+late List<String> listValue = ["Certificado de curso", "Certificado de participação em palestra", "Certificado de participação em projeto social", "Outros"];
 
 class _FormularioState extends State<Formulario> {
   late String initalValue = listValue.first;
 
-  late Solicitacao model = new Solicitacao();
-  late TextEditingController controllerNome = new TextEditingController();
-  late TextEditingController controllerConclusao = new TextEditingController();
-  late TextEditingController controllerInstituicao = new TextEditingController();
+  late FormData form = new FormData();
+  FormularioService formularioService = FormularioService();
+
+  late TextEditingController controllerNomeDocumento = new TextEditingController();
+  late TextEditingController controllerEmissao = new TextEditingController();
+  late TextEditingController controllerInstituicaoEmissora = new TextEditingController();
+  late TextEditingController controllerHorasValidas = new TextEditingController();
   late TextEditingController controllerAnxDocumento = new TextEditingController();
+
+  void doSubmit() async {
+    var res = await formularioService.sendForm(form.arquivo, form.nomeDocumento, form.tipoDocumento, form.horasValidas, form.dataEmissao, form.instituicaoEmissora);
+    if (res) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Solicitação enviada com sucesso'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao enviar solicitação'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +71,7 @@ class _FormularioState extends State<Formulario> {
                     // This is called when the user selects an item.
                     setState(() {
                       initalValue = value!;
-                      model.documento = value;
+                      form.tipoDocumento = value;
                     });
                   },
                   items: listValue.map((String value) {
@@ -68,7 +91,7 @@ class _FormularioState extends State<Formulario> {
               children: [
                 Text('Nome'),
                 TextFormField(
-                  controller: controllerNome,
+                  controller: controllerNomeDocumento,
                   cursorColor: primaryColor,
                 )
               ],
@@ -79,9 +102,22 @@ class _FormularioState extends State<Formulario> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Data de Conclusão'),
+                Text('Data de emissão/conclusão'),
                 TextFormField(
-                  controller: controllerConclusao,
+                  controller: controllerEmissao,
+                  cursorColor: primaryColor,
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Horas válidas'),
+                TextFormField(
+                  controller: controllerHorasValidas,
                   cursorColor: primaryColor,
                 )
               ],
@@ -94,7 +130,7 @@ class _FormularioState extends State<Formulario> {
               children: [
                 Text('Organizado por qual instituição?'),
                 TextFormField(
-                  controller: controllerInstituicao,
+                  controller: controllerInstituicaoEmissora,
                   cursorColor: primaryColor,
                 )
               ],
@@ -117,18 +153,7 @@ class _FormularioState extends State<Formulario> {
             padding: const EdgeInsets.only(left: 24.0, right: 24, top: 32),
             child: OutlinedButton(
               onPressed: () {
-                model.nome = controllerNome.text;
-                model.conclusao = controllerConclusao.text;
-                model.instituicao = controllerInstituicao.text;
-                model.anxDocumento = controllerAnxDocumento.text;// se faz normalmente pra texto
-
-                //debugPrint(model.documento);
-                debugPrint(model.nome);
-                debugPrint(model.conclusao);
-                debugPrint(model.instituicao);
-                debugPrint(model.anxDocumento);
-
-
+                doSubmit();
               },
               style: OutlinedButton.styleFrom(
                   minimumSize: Size.fromHeight(40),
@@ -163,10 +188,12 @@ class _FormularioState extends State<Formulario> {
   }
 }
 
-class Solicitacao {
-  late String documento;
-  late String nome;
-  late String conclusao;
-  late String instituicao;
-  late String anxDocumento;
+class FormData {
+  late File arquivo;
+  late String nomeDocumento;
+  late String tipoDocumento;
+  late int horasValidas;
+  late String dataEmissao;
+  late String instituicaoEmissora;
+
 }

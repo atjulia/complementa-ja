@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
@@ -13,22 +14,34 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  late double progress;
-  late int percent;
-  late int horas;
-  late String nome;
-  late String curso;
+  late double progress = 0.0;
+  late int percent = 0;
+  late int horas = 0;
+  late int horasNecessarias = 0;
+  late String nome = '';
+  late String curso = '';
+
+
+  _getProgress() async {
+    final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        progress = prefs.getDouble('progress') ?? 0.0;
+        percent = prefs.getInt('percent') ?? 0;
+        horas = prefs.getInt('horasConcluidas') ?? 0;
+        nome = prefs.getString('nome') ?? '';
+        curso = prefs.getString('curso') ?? '';
+        horasNecessarias = prefs.getInt('horasNecessarias') ?? 0;
+    });
+  }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-   // aqui tem que atribuir os valores das variaveis
-    horas = 80;
-    percent = 30;
-    progress = 0.30;
-    nome = 'Júlia Karolina';
-    curso = 'Engenharia de Software';
+   super.initState();
+   WidgetsBinding.instance.addPostFrameCallback((_){
+     _getProgress();
+   });
   }
 
   @override
@@ -48,7 +61,7 @@ class _FeedState extends State<Feed> {
               Column(
                 children: [
                   Text(
-                    'Olá $nome', // colocar nome vindo do banco
+                    'Olá $nome',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       fontSize: 25,
@@ -57,7 +70,7 @@ class _FeedState extends State<Feed> {
                     ),
                   ),
                   Text(
-                    curso, // colocar curso vindo do banco
+                    curso,
                     textAlign: TextAlign.right,
                     style: GoogleFonts.inter(
                       fontSize: 14,
@@ -99,7 +112,7 @@ class _FeedState extends State<Feed> {
                               ),
                             ),
                             Text(
-                              '$horas h de 230 h', // trocar para horas
+                              '$horas h de $horasNecessarias h',
                               textAlign: TextAlign.right,
                               style: GoogleFonts.inter(
                                 fontSize: 13,
@@ -126,7 +139,7 @@ class _FeedState extends State<Feed> {
                                 lineWidth: 4.0,
                                 percent: percent / 100,
                                 center: Text(
-                                  percent.toString() + "%", // progresso
+                                  percent.toString() + "%",
                                   style: TextStyle(
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.w600,
