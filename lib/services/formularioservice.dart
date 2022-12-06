@@ -33,7 +33,7 @@ class FormularioService {
 
     var stream = new http.ByteStream(DelegatingStream.typed(arquivo.openRead()));
     var length = await arquivo.length();
-    var uri = Uri.parse("http://localhost:8080/complementaja/documento/enviar");
+    var uri = Uri.parse("https://complementa-ja.herokuapp.com/complementaja/documento/enviar");
     var request = new http.MultipartRequest("POST", uri);
 
     request.fields["id"] = id.toString();

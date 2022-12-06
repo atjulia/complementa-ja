@@ -5,7 +5,7 @@ import 'dart:convert';
 class LoginService {
 
   Future validaLogin(String email, String senha) async {
-    Uri url = Uri.parse("http://localhost:8080/complementaja/usuario/login");
+    Uri url = Uri.parse("https://complementa-ja.herokuapp.com/complementaja/usuario/login");
     Map<String, String> body = {
       'email': email,
       'senha': senha
@@ -27,7 +27,7 @@ class LoginService {
   }
 
   Future<Usuario> getUsuario(String email, String senha) async {
-    Uri url = Uri.parse("http://localhost:8080/complementaja/usuario/login");
+    Uri url = Uri.parse("https://complementa-ja.herokuapp.com/complementaja/usuario/login");
     Map<String, String> body = {
       'email': email,
       'senha': senha
