@@ -8,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import 'feed.dart';
 
-import '../routes.dart' as route;
-
 class LoginView extends StatefulWidget {
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -37,12 +35,36 @@ class _LoginViewState extends State<LoginView> {
       });
       pushToFeed();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Usuário ou senha inválidos'),
-        ),
-      );
+      _errorDialog();
     }
+  }
+
+  Future<void> _errorDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Erro'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Não foi possível realizar seu login.'),
+                Text('E-mail ou senha inválidos.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void pushToFeed() {
@@ -126,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
-                          SizedBox(height: 48),
+                          SizedBox(height: 36),
                         ])))));
   }
 

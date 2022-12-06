@@ -22,7 +22,7 @@ class _FeedState extends State<Feed> {
   late String curso = '';
 
 
-  _getProgress() async {
+  _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
       setState(() {
         progress = prefs.getDouble('progress') ?? 0.0;
@@ -38,9 +38,9 @@ class _FeedState extends State<Feed> {
 
   @override
   void initState() {
-   super.initState();
    WidgetsBinding.instance.addPostFrameCallback((_){
-     _getProgress();
+     _getUserData();
+     super.initState();
    });
   }
 
