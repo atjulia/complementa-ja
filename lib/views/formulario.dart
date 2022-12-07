@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:complementa_ja/constants.dart';
 import 'package:complementa_ja/services/formularioservice.dart';
 import 'package:flutter/material.dart';
@@ -29,17 +29,9 @@ class _FormularioState extends State<Formulario> {
   void doSubmit() async {
     var res = await formularioService.sendForm(form.arquivo, form.nomeDocumento, form.tipoDocumento, form.horasValidas, form.dataEmissao, form.instituicaoEmissora);
     if (res) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Solicitação enviada com sucesso'),
-        ),
-      );
+      _successDialog(context);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro ao enviar solicitação'),
-        ),
-      );
+      _erroDialog(context);
     }
   }
 
@@ -141,11 +133,18 @@ class _FormularioState extends State<Formulario> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Anexar documento'),
-                TextFormField(
-                  controller: controllerAnxDocumento,
-                  cursorColor: primaryColor,
-                )
+                MaterialButton(
+                    color: buttonColor,
+                  child: Text('Anexar documentos',
+                      style: TextStyle(
+                        color: secondaryColor,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      )),
+                    onPressed: () async {
+                      final result = await FilePicker.platform.pickFiles();
+                    },
+                  ),
               ],
             ),
           ),
@@ -196,4 +195,58 @@ class FormData {
   late String dataEmissao;
   late String instituicaoEmissora;
 
+}
+
+Future<void> _successDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Erro'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('Erro ao enviar arquivo!'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _erroDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Sucesso'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('Seus documentos foram enviados para análise'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
