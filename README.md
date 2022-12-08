@@ -22,6 +22,8 @@ Aplicativo para gestão de horas complementares dos alunos do Centro Universitá
     👉🏻 Um dispositivo virtual Android para emular a aplicação (NÃO FUNCIONA RODANDO PELO CHROME, POR CONTA DA BIBLIOTECA DART.IO)
 <br>
 2️⃣ Instruções:
+<br>
+<br>
 
     👉🏻 Clonar o repositório
     
@@ -40,6 +42,8 @@ Aplicativo para gestão de horas complementares dos alunos do Centro Universitá
       👉🏻 (ID = 4) eduardo.schelbauer@catolicasc.edu.br / eduardoschelbauer 
 <br>
 3️⃣ Endpoints
+<br>
+<br>
 
     👉🏻 Ao enviar um documento, verificar no banco de dados o envio do documento, via postman:
     
@@ -72,6 +76,8 @@ Aplicativo para gestão de horas complementares dos alunos do Centro Universitá
       ✍🏻 Este endpoint só funciona pelo navegador, pelo postman ele não faz o download
 <br>
 4️⃣ Tecnologias utilizadas:
+<br>
+<br>
 
     👉🏻 Flutter/Dart para a aplicação
     
@@ -86,7 +92,9 @@ Aplicativo para gestão de horas complementares dos alunos do Centro Universitá
     👉🏻 Heroku para hospedar o banco de dados e fazer deploy da API
 <br>
 5️⃣ O que faltou (não deu tempo de fazer...):
-    
+<br>
+<br>    
+
     👉🏻 Central do administrador para aceitar/recusar os documentos
 <br>
 ⚠ Qualquer dúvida, entrar em contato conosco
