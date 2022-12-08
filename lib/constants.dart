@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //images
 const logo = 'assets/logo.svg';
 const notification = 'assets/notification.svg';
+const refresh = 'assets/refresh.svg';
 
 //colors
 const primaryColor = Color(0xff6B0D0F);

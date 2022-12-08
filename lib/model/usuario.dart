@@ -1,3 +1,5 @@
+import 'documento.dart';
+
 class Usuario {
   final int id;
   final String nome;
@@ -6,6 +8,7 @@ class Usuario {
   final int horasConcluidas;
   final double progress;
   final int percent;
+  final List<Documento> documentos;
 
   Usuario(
       {required this.id,
@@ -14,5 +17,6 @@ class Usuario {
       required this.horasNecessarias,
       required this.horasConcluidas,
       required this.progress,
-      required this.percent});
+      required this.percent,
+      required this.documentos});
 }

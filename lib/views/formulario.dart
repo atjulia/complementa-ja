@@ -23,7 +23,7 @@ late List<String> listValue = [
 ];
 
 class _FormularioState extends State<Formulario> {
-  late String initalValue = listValue.first;
+  late String tipoDocumento = listValue.first;
   late int fileLength = 0;
 
   late FormData form = new FormData();
@@ -41,7 +41,9 @@ class _FormularioState extends State<Formulario> {
 
   void setFormData() async {
     form.nomeDocumento = controllerNomeDocumento.text;
-    form.horasValidas = int.parse(controllerHorasValidas.text);
+    if (controllerHorasValidas.text != "") {
+      form.horasValidas = int.parse(controllerHorasValidas.text);
+    }
     form.dataEmissao = controllerEmissao.text;
     form.instituicaoEmissora = controllerInstituicaoEmissora.text;
   }
@@ -50,6 +52,7 @@ class _FormularioState extends State<Formulario> {
     setFormData();
 
     if (form.arquivo == null ||
+        form.arquivo == File('') ||
         form.nomeDocumento == "" ||
         form.nomeDocumento == null ||
         form.horasValidas == "" ||
@@ -65,7 +68,7 @@ class _FormularioState extends State<Formulario> {
           form.arquivo.lengthSync(),
           form.arquivo,
           form.nomeDocumento,
-          initalValue,
+          tipoDocumento,
           form.horasValidas,
           form.dataEmissao,
           form.instituicaoEmissora);
@@ -96,7 +99,7 @@ class _FormularioState extends State<Formulario> {
                     Text('Tipo de documento'),
                     DropdownButton<String>(
                       isExpanded: true,
-                      value: initalValue,
+                      value: tipoDocumento,
                       elevation: 16,
                       underline: Container(
                         height: 2,
@@ -105,8 +108,7 @@ class _FormularioState extends State<Formulario> {
                       onChanged: (String? value) {
                         // This is called when the user selects an item.
                         setState(() {
-                          initalValue = value!;
-                          form.tipoDocumento = value;
+                          tipoDocumento = value!;
                         });
                       },
                       items: listValue.map((String value) {
@@ -243,9 +245,8 @@ class _FormularioState extends State<Formulario> {
 }
 
 class FormData {
-  late File arquivo;
+  late File arquivo = File('');
   late String nomeDocumento = '';
-  late String tipoDocumento = '';
   late int horasValidas = 0;
   late String dataEmissao = '';
   late String instituicaoEmissora = '';
