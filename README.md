@@ -86,10 +86,6 @@ Aplicativo para gestão de horas complementares dos alunos do Centro Universitá
     👉🏻 Heroku para hospedar o banco de dados e fazer deploy da API
 <br>
 5️⃣ O que faltou (não deu tempo de fazer...):
-
-    👉🏻 Visualização de grid dos últimos envios
-    
-    👉🏻 Tela de notificações
     
     👉🏻 Central do administrador para aceitar/recusar os documentos
 <br>
