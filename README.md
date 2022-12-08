@@ -2,6 +2,12 @@
 Aplicativo para gestão de horas complementares dos alunos do Centro Universitário Católica de Santa Catarina
 <br>
 <br>
+📄 Quadro do projeto: https://github.com/users/Tekislla/projects/1
+<br>
+<br>
+🧠 Repositório backend https://github.com/Tekislla/complementa-ja
+<br>
+<br>
 **⚠ DESCRIÇÃO ⚠**
 <br>
 <br>
